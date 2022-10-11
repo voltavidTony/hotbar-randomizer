@@ -148,10 +148,9 @@ namespace Hotbar_Randomizer {
         }
 
         private void HotbarCell_MouseClick(object sender, MouseEventArgs e) {
-            if (!doSlot) {
-                recipeSelected = hotbarLayout.GetColumn((Control)sender);
-                RecipeLabel = "0";
-            }
+            if (doSlot) return;
+            recipeSelected = hotbarLayout.GetColumn((Control)sender);
+            RecipeLabel = "0";
         }
 
         private void HotbarCell_MouseEnter(object sender, EventArgs e) => ((Control)sender).BackColor = doSlot
