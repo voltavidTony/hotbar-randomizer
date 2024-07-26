@@ -48,8 +48,6 @@ Don't worry if Minecraft gives you an error message, it will still work. Due to 
 
 Hotbar Randomizer interacts with Minecraft by injecting keypresses in response to your mouse events. It uses Minecraft's default keybinds (`F` to swap offhand, `1`-`9` to select the slots, and `/` to detect when you type a command). If you changed some of the keybinds in-game, you can tell Hotbar Randomizer by renaming the executable. For instance, if you reversed the order of the hotbar slots, and swapping the offhand is done with `R`, you would rename `Hotbar Randomizer.exe` to `Hotbar Randomizer {/,9,8,7,6,5,4,3,2,1,R}.exe`. You have to specify all 11 keybinds as a comma separated list contained in curly braces at the end of the filename (but before the .exe). The keybinds must be in this order: command character, slot 1, slot 2, slot 3, slot 4, slot 5, slot 6, slot 7, slot 8, slot 9, and swap offhand character. Anything can come before the curly braces (except more curly braces), but nothing can follow them.
 
-## Troubleshooting
+## Window Target
 
-Hotbar Randomizer filters the application you're currently focusing. Only windows with 'Minecraft' in the title that were started by a 'javaw.exe' process. This means that only Java Edition works, as Bedrock edition is ignored. This is done to stop Hotbar Randomizer from injecting keypresses into random applications.
-
-If you find any bugs, please let me know!
+Hotbar Randomizer only interacts with windows with 'Minecraft' in the title that were started by a 'javaw.exe' process. This means that (for now) only Java Edition works, as Bedrock edition is ignored. This is done to stop Hotbar Randomizer from injecting keypresses into random applications.
