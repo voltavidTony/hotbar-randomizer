@@ -193,10 +193,10 @@
             // 
             this.panelCmd.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.optionsFrame.SetColumnSpan(this.panelCmd, 2);
-            this.panelCmd.Location = new System.Drawing.Point(307, 182);
+            this.panelCmd.Location = new System.Drawing.Point(307, 172);
             this.panelCmd.Margin = new System.Windows.Forms.Padding(0);
             this.panelCmd.Name = "panelCmd";
-            this.panelCmd.Size = new System.Drawing.Size(250, 20);
+            this.panelCmd.Size = new System.Drawing.Size(250, 40);
             this.panelCmd.TabIndex = 6;
             this.panelCmd.Visible = false;
             this.panelCmd.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelCmd_Paint);
