@@ -53,16 +53,8 @@ namespace Hotbar_Randomizer {
         private bool doCount = false;
         private bool doSlot = false;
         private bool doSwap = false;
-        private int recipeSelected = -1;
+        private int selectedRecipe = -1;
         private int selectedSlot = 0;
-
-        private string RecipeLabel {
-            get { return recipeLabels[recipeSelected]; }
-            set {
-                recipeLabels[recipeSelected] = value;
-                recipePanels[recipeSelected].Invalidate();
-            }
-        }
 
         #endregion
 
@@ -167,7 +159,7 @@ namespace Hotbar_Randomizer {
 
         private void HotbarCell_MouseClick(object sender, MouseEventArgs e) {
             if (doSlot) return;
-            recipeSelected = hotbarLayout.GetColumn((Control)sender);
+            selectedRecipe = hotbarLayout.GetColumn((Control)sender);
             ((Control)sender).Invalidate();
         }
 
@@ -180,7 +172,7 @@ namespace Hotbar_Randomizer {
         private void HotbarCell_Paint(object sender, PaintEventArgs e) {
             int i = hotbarLayout.GetColumn((Control)sender);
             e.Graphics.DrawString(recipeLabels[i],
-                new Font(Font.FontFamily, 12, i == recipeSelected ? FontStyle.Bold : FontStyle.Regular), Brushes.White,
+                new Font(Font.FontFamily, 12, i == selectedRecipe ? FontStyle.Bold : FontStyle.Regular), Brushes.White,
                 ((Control)sender).ClientRectangle,
                 new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
         }
@@ -197,34 +189,39 @@ namespace Hotbar_Randomizer {
         }
 
         private void HotbarRandomizerWindow_KeyUp(object sender, KeyEventArgs e) {
-            if (recipeSelected < 0) return;
+            if (selectedRecipe < 0) return;
 
-            string recipeLabel = recipeLabels[recipeSelected];
+            string recipeLabel = recipeLabels[selectedRecipe];
 
             // Modify Recipe
             switch (e.KeyCode) {
             case Keys.Back: // Remove LSD
-                RecipeLabel = RecipeLabel.Length > 1 ? RecipeLabel.Substring(0, RecipeLabel.Length - 1) : "0";
+                recipeLabels[selectedRecipe] = recipeLabel.Length > 1 ? recipeLabel.Substring(0, recipeLabel.Length - 1) : "0";
+                recipePanels[selectedRecipe].Invalidate();
                 break;
             case Keys.Delete: // Reset to 0
-                RecipeLabel = "0";
+                recipeLabels[selectedRecipe] = "0";
+                recipePanels[selectedRecipe].Invalidate();
                 break;
             case Keys.Enter: // Apply
-                recipeValues[recipeSelected] = int.Parse(RecipeLabel);
-                recipePanels[recipeSelected].Invalidate();
-                recipeSelected = -1;
+                recipeValues[selectedRecipe] = int.Parse(recipeLabel);
+                recipePanels[selectedRecipe].Invalidate();
+                selectedRecipe = -1;
                 break;
             case Keys.Escape: // Revert
-                RecipeLabel = recipeValues[recipeSelected].ToString();
-                recipeSelected = -1;
+                recipeLabels[selectedRecipe] = recipeValues[selectedRecipe].ToString();
+                recipePanels[selectedRecipe].Invalidate();
+                selectedRecipe = -1;
                 break;
             default: // Type
-                if (RecipeLabel.Length == 3) break;
+                if (recipeLabel.Length == 3) break;
                 Keys key = e.KeyCode;
                 if (Keys.NumPad0 <= key && key <= Keys.NumPad9)
                     key -= Keys.NumPad0 - Keys.D0;
-                if (Keys.D0 <= key && key <= Keys.D9)
-                    RecipeLabel = RecipeLabel == "0" ? $"{(char)key}" : $"{RecipeLabel}{(char)key}";
+                if (Keys.D0 <= key && key <= Keys.D9) {
+                    recipeLabels[selectedRecipe] = recipeLabel == "0" ? $"{(char)key}" : $"{recipeLabel}{(char)key}";
+                    recipePanels[selectedRecipe].Invalidate();
+                }
                 break;
             }
         }
@@ -299,10 +296,10 @@ namespace Hotbar_Randomizer {
         private void Mouse_WMEvent(object sender, WMEventArgs<MSLLHOOKSTRUCT> e) {
             switch (e.WindowMessage) {
             case WM.LBUTTONDOWN: // Apply Recipe
-                if (recipeSelected >= 0) {
-                    recipeValues[recipeSelected] = int.Parse(RecipeLabel);
-                    recipePanels[recipeSelected].Invalidate();
-                    recipeSelected = -1;
+                if (selectedRecipe >= 0) {
+                    recipeValues[selectedRecipe] = int.Parse(recipeLabels[selectedRecipe]);
+                    recipePanels[selectedRecipe].Invalidate();
+                    selectedRecipe = -1;
                 }
                 goto case WM.LBUTTONUP;
             case WM.LBUTTONUP: // Swap Offhand
@@ -312,9 +309,10 @@ namespace Hotbar_Randomizer {
                 }
                 break;
             case WM.RBUTTONDOWN: // Revert Recipe
-                if (recipeSelected >= 0) {
-                    RecipeLabel = recipeValues[recipeSelected].ToString();
-                    recipeSelected = -1;
+                if (selectedRecipe >= 0) {
+                    recipeLabels[selectedRecipe] = recipeValues[selectedRecipe].ToString();
+                    recipePanels[selectedRecipe].Invalidate();
+                    selectedRecipe = -1;
                 }
                 break;
             case WM.RBUTTONUP: // Switch Slot
