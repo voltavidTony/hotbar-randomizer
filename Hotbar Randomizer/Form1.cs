@@ -23,7 +23,6 @@ using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Collections.Generic;
 
 namespace Hotbar_Randomizer {
     public partial class HotbarRandomizerWindow : Form {
@@ -32,7 +31,6 @@ namespace Hotbar_Randomizer {
 
         private readonly Panel[] recipePanels;
 
-        private readonly Dictionary<string, Action<object, EventArgs>> commands;
         private readonly InputTracker<KBDLLHOOKSTRUCT> keyboard;
         private readonly InputTracker<MSLLHOOKSTRUCT> mouse;
         private readonly Random rng = new Random();
@@ -63,13 +61,6 @@ namespace Hotbar_Randomizer {
         public HotbarRandomizerWindow() {
             InitializeComponent();
 
-            commands = new Dictionary<string, Action<object, EventArgs>>() {
-                { "/hot count", LeverCount_Click },
-                { "/hot slot", LeverSlots_Click },
-                { "/hot swap", LeverSwap_Click },
-                { "/hot quit", ButtonClose_Click }
-            };
-
             recipePanels = new Panel[] { panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, panel9 };
 
             textBoxCmd = new TextBox() {
@@ -91,6 +82,46 @@ namespace Hotbar_Randomizer {
         #endregion
 
         #region Private Methods
+
+        private void ProcessCommand() {
+            if (!textBoxCmd.Text.StartsWith("/hot ")) return;
+
+            string[] cmd = textBoxCmd.Text.Substring(5).Split(' ');
+            switch (cmd[0]) {
+            case "count":
+                LeverCount_Click(this, EventArgs.Empty);
+                break;
+            case "slot":
+                LeverSlots_Click(this, EventArgs.Empty);
+                break;
+            case "swap":
+                LeverSwap_Click(this, EventArgs.Empty);
+                break;
+            case "quit":
+                ButtonClose_Click(this, EventArgs.Empty);
+                break;
+            default:// Portions command
+                int[] portions = new int[9];
+                try {
+                    for (int i = 0; i < 9 && i < cmd.Length; i++) {
+                        portions[i] = int.Parse(cmd[i]);
+                        if (portions[i] < 0) portions[i] = 0;
+                        if (portions[i] > 999) portions[i] = 999;
+                    }
+                } catch (FormatException) { break; }
+                for (int i = 0; i < 9 && i < cmd.Length; i++) {
+                    recipeLabels[i] = recipeValues[i].ToString();
+                    recipeValues[i] = portions[i];
+                }
+                for (int i = portions.Length; i < recipeValues.Length; i++) {
+                    recipeLabels[i] = "0";
+                    recipeValues[i] = 0;
+                }
+                hotbarLayout.Invalidate(true);
+                if (doSlot && SelectSlot()) LeverSlots_Click(this, EventArgs.Empty);
+                break;
+            }
+        }
 
         private bool SelectSlot() {
             int recipeCount = 0;
@@ -239,9 +270,7 @@ namespace Hotbar_Randomizer {
             // Handle command
             if (panelCmd.Visible) switch (e.Info.vkCode) {
                 case Keys.Enter: // Process command
-                    try {
-                        commands[textBoxCmd.Text](this, EventArgs.Empty);
-                    } catch (KeyNotFoundException) { }
+                    ProcessCommand();
                     panelCmd.Visible = false;
                     break;
                 case Keys.Escape: // Cancel command
