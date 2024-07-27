@@ -474,7 +474,7 @@
             this.MinimizeBox = false;
             this.Name = "HotbarRandomizerWindow";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HotbarRandomizerWindow_FormClosing);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HotbarRandomizerWindow_KeyUp);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HotbarRandomizerWindow_KeyDown);
             this.mainFrame.ResumeLayout(false);
             this.mainFrame.PerformLayout();
             this.optionsFrame.ResumeLayout(false);

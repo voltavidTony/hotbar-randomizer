@@ -19,10 +19,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 using static Hotbar_Randomizer.Program;
 using InputTracking;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Hotbar_Randomizer {
     public partial class HotbarRandomizerWindow : Form {
@@ -42,7 +42,6 @@ namespace Hotbar_Randomizer {
         private readonly IntPtr windowPtr;
 
         private readonly int[] recipeValues = { 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-        private readonly string[] recipeLabels = { "1", "1", "1", "1", "1", "1", "1", "1", "1" };
 
         private AboutBox1 aboutBox;
 
@@ -51,6 +50,7 @@ namespace Hotbar_Randomizer {
         private bool doCount = false;
         private bool doSlot = false;
         private bool doSwap = false;
+        private int previousRecipeValue = 0;
         private int selectedRecipe = -1;
         private int selectedSlot = 0;
 
@@ -101,24 +101,17 @@ namespace Hotbar_Randomizer {
                 ButtonClose_Click(this, EventArgs.Empty);
                 break;
             default:// Portions command
-                int[] portions = new int[9];
+                int[] portions = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
                 try {
-                    for (int i = 0; i < 9 && i < cmd.Length; i++) {
+                    for (int i = 0; i < portions.Length && i < cmd.Length; i++) {
                         portions[i] = int.Parse(cmd[i]);
                         if (portions[i] < 0) portions[i] = 0;
                         if (portions[i] > 999) portions[i] = 999;
                     }
                 } catch (FormatException) { break; }
-                for (int i = 0; i < 9 && i < cmd.Length; i++) {
-                    recipeLabels[i] = recipeValues[i].ToString();
-                    recipeValues[i] = portions[i];
-                }
-                for (int i = portions.Length; i < recipeValues.Length; i++) {
-                    recipeLabels[i] = "0";
-                    recipeValues[i] = 0;
-                }
+                for (int i = 0; i < portions.Length; i++) recipeValues[i] = portions[i];
                 hotbarLayout.Invalidate(true);
-                if (doSlot && SelectSlot()) LeverSlots_Click(this, EventArgs.Empty);
+                if (doSlot && !SelectSlot()) LeverSlots_Click(this, EventArgs.Empty);
                 break;
             }
         }
@@ -191,6 +184,7 @@ namespace Hotbar_Randomizer {
         private void HotbarCell_MouseClick(object sender, MouseEventArgs e) {
             if (doSlot) return;
             selectedRecipe = hotbarLayout.GetColumn((Control)sender);
+            previousRecipeValue = recipeValues[selectedRecipe];
             ((Control)sender).Invalidate();
         }
 
@@ -202,7 +196,7 @@ namespace Hotbar_Randomizer {
 
         private void HotbarCell_Paint(object sender, PaintEventArgs e) {
             int i = hotbarLayout.GetColumn((Control)sender);
-            e.Graphics.DrawString(recipeLabels[i],
+            e.Graphics.DrawString(recipeValues[i].ToString(),
                 new Font(Font.FontFamily, 12, i == selectedRecipe ? FontStyle.Bold : FontStyle.Regular), Brushes.White,
                 ((Control)sender).ClientRectangle,
                 new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
@@ -219,38 +213,35 @@ namespace Hotbar_Randomizer {
             UnhookWinEvent(windowPtr);
         }
 
-        private void HotbarRandomizerWindow_KeyUp(object sender, KeyEventArgs e) {
+        private void HotbarRandomizerWindow_KeyDown(object sender, KeyEventArgs e) {
             if (selectedRecipe < 0) return;
-
-            string recipeLabel = recipeLabels[selectedRecipe];
 
             // Modify Recipe
             switch (e.KeyCode) {
             case Keys.Back: // Remove LSD
-                recipeLabels[selectedRecipe] = recipeLabel.Length > 1 ? recipeLabel.Substring(0, recipeLabel.Length - 1) : "0";
+                recipeValues[selectedRecipe] /= 10;
                 recipePanels[selectedRecipe].Invalidate();
                 break;
             case Keys.Delete: // Reset to 0
-                recipeLabels[selectedRecipe] = "0";
+                recipeValues[selectedRecipe] = 0;
                 recipePanels[selectedRecipe].Invalidate();
                 break;
             case Keys.Enter: // Apply
-                recipeValues[selectedRecipe] = int.Parse(recipeLabel);
                 recipePanels[selectedRecipe].Invalidate();
                 selectedRecipe = -1;
                 break;
             case Keys.Escape: // Revert
-                recipeLabels[selectedRecipe] = recipeValues[selectedRecipe].ToString();
+                recipeValues[selectedRecipe] = previousRecipeValue;
                 recipePanels[selectedRecipe].Invalidate();
                 selectedRecipe = -1;
                 break;
-            default: // Type
-                if (recipeLabel.Length == 3) break;
+            default: // Add digit
+                if (recipeValues[selectedRecipe] > 99) break;
                 Keys key = e.KeyCode;
                 if (Keys.NumPad0 <= key && key <= Keys.NumPad9)
                     key -= Keys.NumPad0 - Keys.D0;
                 if (Keys.D0 <= key && key <= Keys.D9) {
-                    recipeLabels[selectedRecipe] = recipeLabel == "0" ? $"{(char)key}" : $"{recipeLabel}{(char)key}";
+                    recipeValues[selectedRecipe] = recipeValues[selectedRecipe] * 10 + (key - Keys.D0);
                     recipePanels[selectedRecipe].Invalidate();
                 }
                 break;
@@ -326,7 +317,6 @@ namespace Hotbar_Randomizer {
             switch (e.WindowMessage) {
             case WM.LBUTTONDOWN: // Apply Recipe
                 if (selectedRecipe >= 0) {
-                    recipeValues[selectedRecipe] = int.Parse(recipeLabels[selectedRecipe]);
                     recipePanels[selectedRecipe].Invalidate();
                     selectedRecipe = -1;
                 }
@@ -339,7 +329,7 @@ namespace Hotbar_Randomizer {
                 break;
             case WM.RBUTTONDOWN: // Revert Recipe
                 if (selectedRecipe >= 0) {
-                    recipeLabels[selectedRecipe] = recipeValues[selectedRecipe].ToString();
+                    recipeValues[selectedRecipe] = previousRecipeValue;
                     recipePanels[selectedRecipe].Invalidate();
                     selectedRecipe = -1;
                 }
@@ -347,12 +337,12 @@ namespace Hotbar_Randomizer {
             case WM.RBUTTONUP: // Switch Slot
                 if (MCWindow == IntPtr.Zero || !doSlot) break;
                 if (doCount) { // Portion decrement
-                    recipeLabels[selectedSlot] = (--recipeValues[selectedSlot]).ToString();
+                    recipeValues[selectedSlot]--;
                     recipePanels[selectedSlot].Invalidate();
                 }
                 if (!SelectSlot()) { // Out of portions
-                    LeverCount_Click(null, null);
-                    LeverSlots_Click(null, null);
+                    LeverCount_Click(this, EventArgs.Empty);
+                    LeverSlots_Click(this, EventArgs.Empty);
                     break;
                 }
                 PostMessage(MCWindow, (uint)WM.KEYDOWN, HotKeys[selectedSlot + 1], 0x0000_0001);
