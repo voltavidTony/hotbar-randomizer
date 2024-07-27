@@ -62,8 +62,8 @@ namespace Hotbar_Randomizer.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {\rtf1\adeflang1025\ansi\ansicpg1252\uc1\adeff0\deff0\stshfdbch31505\stshfloch31506\stshfhich31506\stshfbi0\deflang1033\deflangfe1033\themelang1033\themelangfe0\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f34\fbidi \froman\fcharset0\fprq2{\*\panose 02040503050406030204}Cambria Math;}
-        ///{\f43\fbidi \fnil\fcharset0\fprq2{\*\panose 00000000000000000000}{\*\fontemb\ftruetype 
-        ///581200007c11000002000200040000000000040000000000000000009001000004004c50070 [rest of string was truncated]&quot;;.
+        ///{\f37\fbidi \fswiss\fcharset0\fprq2{\*\panose 020f0502020204030204}{\*\fontemb\ftruetype 
+        ///ad710b00ef700b000200020004000000020f050202020403020400009001000008004c50f [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string about_pg1 {
             get {
@@ -73,8 +73,8 @@ namespace Hotbar_Randomizer.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {\rtf1\adeflang1025\ansi\ansicpg1252\uc1\adeff0\deff0\stshfdbch31505\stshfloch31506\stshfhich31506\stshfbi0\deflang1033\deflangfe1033\themelang1033\themelangfe0\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f34\fbidi \froman\fcharset0\fprq2{\*\panose 02040503050406030204}Cambria Math;}
-        ///{\f43\fbidi \fnil\fcharset0\fprq2{\*\panose 00000000000000000000}{\*\fontemb\ftruetype 
-        ///581200007c11000002000200040000000000040000000000000000009001000004004c50070 [rest of string was truncated]&quot;;.
+        ///{\f37\fbidi \fswiss\fcharset0\fprq2{\*\panose 020f0502020204030204}{\*\fontemb\ftruetype 
+        ///ad710b00ef700b000200020004000000020f050202020403020400009001000008004c50f [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string about_pg2 {
             get {
@@ -84,7 +84,7 @@ namespace Hotbar_Randomizer.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {\rtf1\adeflang1025\ansi\ansicpg1252\uc1\adeff0\deff0\stshfdbch31505\stshfloch31506\stshfhich31506\stshfbi0\deflang1033\deflangfe1033\themelang1033\themelangfe0\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f34\fbidi \froman\fcharset0\fprq2{\*\panose 02040503050406030204}Cambria Math;}
-        ///{\f43\fbidi \fnil\fcharset0\fprq2{\*\panose 00000400000000000000}{\*\fontemb\ftruetype 
+        ///{\f43\fbidi \fnil\fcharset0\fprq2{\*\panose 00000000000000000000}{\*\fontemb\ftruetype 
         ///581200007c11000002000200040000000000040000000000000000009001000004004c50070 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string about_pg3 {
@@ -95,7 +95,7 @@ namespace Hotbar_Randomizer.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {\rtf1\adeflang1025\ansi\ansicpg1252\uc1\adeff0\deff0\stshfdbch31505\stshfloch31506\stshfhich31506\stshfbi0\deflang1033\deflangfe1033\themelang1033\themelangfe0\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f34\fbidi \froman\fcharset0\fprq2{\*\panose 02040503050406030204}Cambria Math;}
-        ///{\f43\fbidi \fnil\fcharset0\fprq2{\*\panose 00000000000000000000}{\*\fontemb\ftruetype 
+        ///{\f43\fbidi \fnil\fcharset0\fprq2{\*\panose 00000400000000000000}{\*\fontemb\ftruetype 
         ///581200007c11000002000200040000000000040000000000000000009001000004004c50070 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string about_pg4 {
@@ -189,6 +189,16 @@ namespace Hotbar_Randomizer.Properties {
         internal static System.Drawing.Bitmap hotbar {
             get {
                 object obj = ResourceManager.GetObject("hotbar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap hotbar_selection {
+            get {
+                object obj = ResourceManager.GetObject("hotbar_selection", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -33,6 +33,9 @@
             this.labelSlots = new System.Windows.Forms.Label();
             this.leverSwap = new System.Windows.Forms.Panel();
             this.panelCmd = new System.Windows.Forms.Panel();
+            this.leverCount = new System.Windows.Forms.Panel();
+            this.layoutCount = new System.Windows.Forms.TableLayoutPanel();
+            this.labelCount = new System.Windows.Forms.Label();
             this.titleBar = new System.Windows.Forms.TableLayoutPanel();
             this.layoutClose = new System.Windows.Forms.TableLayoutPanel();
             this.layoutQuestion = new System.Windows.Forms.TableLayoutPanel();
@@ -50,6 +53,7 @@
             this.optionsFrame.SuspendLayout();
             this.layoutSwap.SuspendLayout();
             this.layoutSignSlots.SuspendLayout();
+            this.layoutCount.SuspendLayout();
             this.titleBar.SuspendLayout();
             this.hotbarLayout.SuspendLayout();
             this.SuspendLayout();
@@ -73,7 +77,7 @@
             this.mainFrame.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.mainFrame.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.mainFrame.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.mainFrame.Size = new System.Drawing.Size(740, 257);
+            this.mainFrame.Size = new System.Drawing.Size(576, 369);
             this.mainFrame.TabIndex = 0;
             // 
             // optionsFrame
@@ -81,31 +85,33 @@
             this.optionsFrame.AutoSize = true;
             this.optionsFrame.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.optionsFrame.BackColor = System.Drawing.Color.Transparent;
-            this.optionsFrame.ColumnCount = 5;
+            this.optionsFrame.ColumnCount = 4;
             this.optionsFrame.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.optionsFrame.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.optionsFrame.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.optionsFrame.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.optionsFrame.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.optionsFrame.Controls.Add(this.leverSlots, 4, 0);
+            this.optionsFrame.Controls.Add(this.leverSlots, 3, 0);
             this.optionsFrame.Controls.Add(this.layoutSwap, 1, 0);
-            this.optionsFrame.Controls.Add(this.layoutSignSlots, 3, 0);
+            this.optionsFrame.Controls.Add(this.layoutSignSlots, 2, 0);
             this.optionsFrame.Controls.Add(this.leverSwap, 0, 0);
-            this.optionsFrame.Controls.Add(this.panelCmd, 2, 0);
+            this.optionsFrame.Controls.Add(this.panelCmd, 2, 1);
+            this.optionsFrame.Controls.Add(this.leverCount, 0, 1);
+            this.optionsFrame.Controls.Add(this.layoutCount, 1, 1);
             this.optionsFrame.Dock = System.Windows.Forms.DockStyle.Fill;
             this.optionsFrame.Location = new System.Drawing.Point(0, 32);
             this.optionsFrame.Margin = new System.Windows.Forms.Padding(0);
             this.optionsFrame.Name = "optionsFrame";
-            this.optionsFrame.RowCount = 1;
+            this.optionsFrame.RowCount = 2;
             this.optionsFrame.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.optionsFrame.Size = new System.Drawing.Size(740, 128);
+            this.optionsFrame.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 128F));
+            this.optionsFrame.Size = new System.Drawing.Size(576, 256);
             this.optionsFrame.TabIndex = 3;
             // 
             // leverSlots
             // 
             this.leverSlots.BackgroundImage = global::Hotbar_Randomizer.Properties.Resources.lever_off;
             this.leverSlots.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.leverSlots.Location = new System.Drawing.Point(644, 0);
+            this.leverSlots.Location = new System.Drawing.Point(480, 0);
             this.leverSlots.Margin = new System.Windows.Forms.Padding(0);
             this.leverSlots.Name = "leverSlots";
             this.leverSlots.Size = new System.Drawing.Size(96, 128);
@@ -134,11 +140,12 @@
             this.labelSwap.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelSwap.AutoSize = true;
             this.labelSwap.ForeColor = System.Drawing.Color.Black;
-            this.labelSwap.Location = new System.Drawing.Point(53, 51);
+            this.labelSwap.Location = new System.Drawing.Point(23, 57);
+            this.labelSwap.MaximumSize = new System.Drawing.Size(150, 0);
             this.labelSwap.Name = "labelSwap";
-            this.labelSwap.Size = new System.Drawing.Size(85, 26);
+            this.labelSwap.Size = new System.Drawing.Size(145, 13);
             this.labelSwap.TabIndex = 0;
-            this.labelSwap.Text = "Swap to offhand\r\nwhile mining";
+            this.labelSwap.Text = "Swap to offhand while mining";
             this.labelSwap.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // layoutSignSlots
@@ -148,7 +155,7 @@
             this.layoutSignSlots.ColumnCount = 1;
             this.layoutSignSlots.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.layoutSignSlots.Controls.Add(this.labelSlots, 0, 0);
-            this.layoutSignSlots.Location = new System.Drawing.Point(452, 0);
+            this.layoutSignSlots.Location = new System.Drawing.Point(288, 0);
             this.layoutSignSlots.Margin = new System.Windows.Forms.Padding(0);
             this.layoutSignSlots.Name = "layoutSignSlots";
             this.layoutSignSlots.RowCount = 1;
@@ -162,11 +169,12 @@
             this.labelSlots.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelSlots.AutoSize = true;
             this.labelSlots.ForeColor = System.Drawing.Color.Black;
-            this.labelSlots.Location = new System.Drawing.Point(46, 51);
+            this.labelSlots.Location = new System.Drawing.Point(34, 51);
+            this.labelSlots.MaximumSize = new System.Drawing.Size(150, 0);
             this.labelSlots.Name = "labelSlots";
-            this.labelSlots.Size = new System.Drawing.Size(99, 26);
+            this.labelSlots.Size = new System.Drawing.Size(123, 26);
             this.labelSlots.TabIndex = 0;
-            this.labelSlots.Text = "Select random slot\r\nwhen placing block";
+            this.labelSlots.Text = "Select random slot when placing block";
             this.labelSlots.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // leverSwap
@@ -184,13 +192,56 @@
             // panelCmd
             // 
             this.panelCmd.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.panelCmd.Location = new System.Drawing.Point(295, 54);
+            this.optionsFrame.SetColumnSpan(this.panelCmd, 2);
+            this.panelCmd.Location = new System.Drawing.Point(307, 182);
             this.panelCmd.Margin = new System.Windows.Forms.Padding(0);
             this.panelCmd.Name = "panelCmd";
-            this.panelCmd.Size = new System.Drawing.Size(150, 20);
+            this.panelCmd.Size = new System.Drawing.Size(250, 20);
             this.panelCmd.TabIndex = 6;
             this.panelCmd.Visible = false;
             this.panelCmd.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelCmd_Paint);
+            // 
+            // leverCount
+            // 
+            this.leverCount.BackgroundImage = global::Hotbar_Randomizer.Properties.Resources.lever_off;
+            this.leverCount.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.leverCount.Location = new System.Drawing.Point(0, 128);
+            this.leverCount.Margin = new System.Windows.Forms.Padding(0);
+            this.leverCount.Name = "leverCount";
+            this.leverCount.Size = new System.Drawing.Size(96, 128);
+            this.leverCount.TabIndex = 7;
+            this.leverCount.Click += new System.EventHandler(this.LeverCount_Click);
+            this.leverCount.DoubleClick += new System.EventHandler(this.LeverCount_Click);
+            // 
+            // layoutCount
+            // 
+            this.layoutCount.BackgroundImage = global::Hotbar_Randomizer.Properties.Resources.sign;
+            this.layoutCount.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.layoutCount.ColumnCount = 1;
+            this.layoutCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.layoutCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.layoutCount.Controls.Add(this.labelCount, 0, 0);
+            this.layoutCount.Location = new System.Drawing.Point(96, 128);
+            this.layoutCount.Margin = new System.Windows.Forms.Padding(0);
+            this.layoutCount.Name = "layoutCount";
+            this.layoutCount.RowCount = 1;
+            this.layoutCount.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.layoutCount.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.layoutCount.Size = new System.Drawing.Size(192, 128);
+            this.layoutCount.TabIndex = 8;
+            // 
+            // labelCount
+            // 
+            this.labelCount.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.labelCount.AutoSize = true;
+            this.labelCount.ForeColor = System.Drawing.Color.Black;
+            this.labelCount.Location = new System.Drawing.Point(24, 51);
+            this.labelCount.MaximumSize = new System.Drawing.Size(150, 0);
+            this.labelCount.Name = "labelCount";
+            this.labelCount.Size = new System.Drawing.Size(143, 26);
+            this.labelCount.TabIndex = 0;
+            this.labelCount.Text = "Decrement current slot when placing block";
+            this.labelCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // titleBar
             // 
@@ -210,7 +261,7 @@
             this.titleBar.RowCount = 1;
             this.titleBar.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.titleBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.titleBar.Size = new System.Drawing.Size(740, 32);
+            this.titleBar.Size = new System.Drawing.Size(576, 32);
             this.titleBar.TabIndex = 4;
             this.titleBar.Paint += new System.Windows.Forms.PaintEventHandler(this.TitleBar_Paint);
             this.titleBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TitleBar_MouseDown);
@@ -221,7 +272,7 @@
             this.layoutClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.layoutClose.ColumnCount = 1;
             this.layoutClose.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.layoutClose.Location = new System.Drawing.Point(692, 0);
+            this.layoutClose.Location = new System.Drawing.Point(528, 0);
             this.layoutClose.Margin = new System.Windows.Forms.Padding(0);
             this.layoutClose.Name = "layoutClose";
             this.layoutClose.RowCount = 1;
@@ -237,7 +288,7 @@
             this.layoutQuestion.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.layoutQuestion.ColumnCount = 1;
             this.layoutQuestion.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.layoutQuestion.Location = new System.Drawing.Point(644, 0);
+            this.layoutQuestion.Location = new System.Drawing.Point(480, 0);
             this.layoutQuestion.Margin = new System.Windows.Forms.Padding(0);
             this.layoutQuestion.Name = "layoutQuestion";
             this.layoutQuestion.RowCount = 1;
@@ -249,18 +300,19 @@
             // 
             // hotbarLayout
             // 
+            this.hotbarLayout.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.hotbarLayout.BackgroundImage = global::Hotbar_Randomizer.Properties.Resources.hotbar;
             this.hotbarLayout.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.hotbarLayout.ColumnCount = 9;
-            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.hotbarLayout.Controls.Add(this.panel1, 0, 0);
             this.hotbarLayout.Controls.Add(this.panel2, 1, 0);
             this.hotbarLayout.Controls.Add(this.panel3, 2, 0);
@@ -270,23 +322,24 @@
             this.hotbarLayout.Controls.Add(this.panel7, 6, 0);
             this.hotbarLayout.Controls.Add(this.panel8, 7, 0);
             this.hotbarLayout.Controls.Add(this.panel9, 8, 0);
-            this.hotbarLayout.Location = new System.Drawing.Point(5, 165);
+            this.hotbarLayout.Location = new System.Drawing.Point(12, 293);
             this.hotbarLayout.Margin = new System.Windows.Forms.Padding(5);
             this.hotbarLayout.Name = "hotbarLayout";
-            this.hotbarLayout.Padding = new System.Windows.Forms.Padding(4);
+            this.hotbarLayout.Padding = new System.Windows.Forms.Padding(6);
             this.hotbarLayout.RowCount = 1;
-            this.hotbarLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.hotbarLayout.Size = new System.Drawing.Size(728, 88);
+            this.hotbarLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.hotbarLayout.Size = new System.Drawing.Size(552, 72);
             this.hotbarLayout.TabIndex = 5;
+            this.hotbarLayout.Paint += new System.Windows.Forms.PaintEventHandler(this.HotbarLayout_Paint);
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(12, 12);
-            this.panel1.Margin = new System.Windows.Forms.Padding(8);
+            this.panel1.Margin = new System.Windows.Forms.Padding(6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(64, 64);
+            this.panel1.Size = new System.Drawing.Size(48, 48);
             this.panel1.TabIndex = 4;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.HotbarCell_Paint);
             this.panel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HotbarCell_MouseClick);
@@ -297,10 +350,10 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.Transparent;
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(92, 12);
-            this.panel2.Margin = new System.Windows.Forms.Padding(8);
+            this.panel2.Location = new System.Drawing.Point(72, 12);
+            this.panel2.Margin = new System.Windows.Forms.Padding(6);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(64, 64);
+            this.panel2.Size = new System.Drawing.Size(48, 48);
             this.panel2.TabIndex = 5;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.HotbarCell_Paint);
             this.panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HotbarCell_MouseClick);
@@ -311,10 +364,10 @@
             // 
             this.panel3.BackColor = System.Drawing.Color.Transparent;
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(172, 12);
-            this.panel3.Margin = new System.Windows.Forms.Padding(8);
+            this.panel3.Location = new System.Drawing.Point(132, 12);
+            this.panel3.Margin = new System.Windows.Forms.Padding(6);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(64, 64);
+            this.panel3.Size = new System.Drawing.Size(48, 48);
             this.panel3.TabIndex = 6;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.HotbarCell_Paint);
             this.panel3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HotbarCell_MouseClick);
@@ -325,10 +378,10 @@
             // 
             this.panel4.BackColor = System.Drawing.Color.Transparent;
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(252, 12);
-            this.panel4.Margin = new System.Windows.Forms.Padding(8);
+            this.panel4.Location = new System.Drawing.Point(192, 12);
+            this.panel4.Margin = new System.Windows.Forms.Padding(6);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(64, 64);
+            this.panel4.Size = new System.Drawing.Size(48, 48);
             this.panel4.TabIndex = 7;
             this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.HotbarCell_Paint);
             this.panel4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HotbarCell_MouseClick);
@@ -339,10 +392,10 @@
             // 
             this.panel5.BackColor = System.Drawing.Color.Transparent;
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(332, 12);
-            this.panel5.Margin = new System.Windows.Forms.Padding(8);
+            this.panel5.Location = new System.Drawing.Point(252, 12);
+            this.panel5.Margin = new System.Windows.Forms.Padding(6);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(64, 64);
+            this.panel5.Size = new System.Drawing.Size(48, 48);
             this.panel5.TabIndex = 8;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.HotbarCell_Paint);
             this.panel5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HotbarCell_MouseClick);
@@ -353,10 +406,10 @@
             // 
             this.panel6.BackColor = System.Drawing.Color.Transparent;
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(412, 12);
-            this.panel6.Margin = new System.Windows.Forms.Padding(8);
+            this.panel6.Location = new System.Drawing.Point(312, 12);
+            this.panel6.Margin = new System.Windows.Forms.Padding(6);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(64, 64);
+            this.panel6.Size = new System.Drawing.Size(48, 48);
             this.panel6.TabIndex = 9;
             this.panel6.Paint += new System.Windows.Forms.PaintEventHandler(this.HotbarCell_Paint);
             this.panel6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HotbarCell_MouseClick);
@@ -367,10 +420,10 @@
             // 
             this.panel7.BackColor = System.Drawing.Color.Transparent;
             this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel7.Location = new System.Drawing.Point(492, 12);
-            this.panel7.Margin = new System.Windows.Forms.Padding(8);
+            this.panel7.Location = new System.Drawing.Point(372, 12);
+            this.panel7.Margin = new System.Windows.Forms.Padding(6);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(64, 64);
+            this.panel7.Size = new System.Drawing.Size(48, 48);
             this.panel7.TabIndex = 10;
             this.panel7.Paint += new System.Windows.Forms.PaintEventHandler(this.HotbarCell_Paint);
             this.panel7.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HotbarCell_MouseClick);
@@ -381,10 +434,10 @@
             // 
             this.panel8.BackColor = System.Drawing.Color.Transparent;
             this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel8.Location = new System.Drawing.Point(572, 12);
-            this.panel8.Margin = new System.Windows.Forms.Padding(8);
+            this.panel8.Location = new System.Drawing.Point(432, 12);
+            this.panel8.Margin = new System.Windows.Forms.Padding(6);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(64, 64);
+            this.panel8.Size = new System.Drawing.Size(48, 48);
             this.panel8.TabIndex = 11;
             this.panel8.Paint += new System.Windows.Forms.PaintEventHandler(this.HotbarCell_Paint);
             this.panel8.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HotbarCell_MouseClick);
@@ -395,10 +448,10 @@
             // 
             this.panel9.BackColor = System.Drawing.Color.Transparent;
             this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel9.Location = new System.Drawing.Point(652, 12);
-            this.panel9.Margin = new System.Windows.Forms.Padding(8);
+            this.panel9.Location = new System.Drawing.Point(492, 12);
+            this.panel9.Margin = new System.Windows.Forms.Padding(6);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(64, 64);
+            this.panel9.Size = new System.Drawing.Size(48, 48);
             this.panel9.TabIndex = 12;
             this.panel9.Paint += new System.Windows.Forms.PaintEventHandler(this.HotbarCell_Paint);
             this.panel9.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HotbarCell_MouseClick);
@@ -412,7 +465,7 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackgroundImage = global::Hotbar_Randomizer.Properties.Resources.background;
-            this.ClientSize = new System.Drawing.Size(740, 257);
+            this.ClientSize = new System.Drawing.Size(576, 369);
             this.ControlBox = false;
             this.Controls.Add(this.mainFrame);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
@@ -429,6 +482,8 @@
             this.layoutSwap.PerformLayout();
             this.layoutSignSlots.ResumeLayout(false);
             this.layoutSignSlots.PerformLayout();
+            this.layoutCount.ResumeLayout(false);
+            this.layoutCount.PerformLayout();
             this.titleBar.ResumeLayout(false);
             this.hotbarLayout.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -460,6 +515,9 @@
         private System.Windows.Forms.Panel leverSwap;
         private System.Windows.Forms.Panel leverSlots;
         private System.Windows.Forms.Panel panelCmd;
+        private System.Windows.Forms.Panel leverCount;
+        private System.Windows.Forms.TableLayoutPanel layoutCount;
+        private System.Windows.Forms.Label labelCount;
     }
 }
 

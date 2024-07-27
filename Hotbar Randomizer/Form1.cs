@@ -50,10 +50,11 @@ namespace Hotbar_Randomizer {
 
         private IntPtr MCWindow = IntPtr.Zero;
 
+        private bool doCount = false;
         private bool doSlot = false;
         private bool doSwap = false;
-        private int recipeCount = 9;
         private int recipeSelected = -1;
+        private int selectedSlot = 0;
 
         private string RecipeLabel {
             get { return recipeLabels[recipeSelected]; }
@@ -71,6 +72,7 @@ namespace Hotbar_Randomizer {
             InitializeComponent();
 
             commands = new Dictionary<string, Action<object, EventArgs>>() {
+                { "/hot count", LeverCount_Click },
                 { "/hot slot", LeverSlots_Click },
                 { "/hot swap", LeverSwap_Click },
                 { "/hot quit", ButtonClose_Click }
@@ -86,12 +88,26 @@ namespace Hotbar_Randomizer {
             textBoxCmd.TextChanged += TextBoxCmd_TextChanged;
 
             Font = new Font(Fonts.Families[0], 12);
-            labelSlots.Font = labelSwap.Font = panelCmd.Font = new Font(Font.FontFamily, 9);
+            labelCount.Font = labelSlots.Font = labelSwap.Font = panelCmd.Font = new Font(Font.FontFamily, 9);
 
             (keyboard = new InputTracker<KBDLLHOOKSTRUCT>()).WMEvent += Keyboard_WMEvent;
             (mouse = new InputTracker<MSLLHOOKSTRUCT>()).WMEvent += Mouse_WMEvent;
             window = new WinEventDelegate(ForegroundChanged);
             windowPtr = SetWinEventHook(3, 3, IntPtr.Zero, window, 0, 0, 0);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private bool SelectSlot() {
+            int recipeCount = 0;
+            foreach (int r in recipeValues) recipeCount += r;
+            if (recipeCount == 0) return false;
+            selectedSlot = 0;
+            for (int i = rng.Next(recipeCount) + 1; i > recipeValues[selectedSlot]; i -= recipeValues[selectedSlot++]) ;
+            hotbarLayout.Invalidate();
+            return true;
         }
 
         #endregion
@@ -169,6 +185,10 @@ namespace Hotbar_Randomizer {
                 new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
         }
 
+        private void HotbarLayout_Paint(object sender, PaintEventArgs e) {
+            if (doCount) e.Graphics.DrawImage(Properties.Resources.hotbar_selection, 60 * selectedSlot, 0, 72, 72);
+        }
+
         private void HotbarRandomizerWindow_FormClosing(object sender, FormClosingEventArgs e) {
             keyboard.Dispose();
             mouse.Dispose();
@@ -178,6 +198,8 @@ namespace Hotbar_Randomizer {
 
         private void HotbarRandomizerWindow_KeyUp(object sender, KeyEventArgs e) {
             if (recipeSelected < 0) return;
+
+            string recipeLabel = recipeLabels[recipeSelected];
 
             // Modify Recipe
             switch (e.KeyCode) {
@@ -236,25 +258,39 @@ namespace Hotbar_Randomizer {
                 }
         }
 
-        private void LeverSlots_Click(object sender, EventArgs e) {
-            recipeCount = 0;
-            foreach (int r in recipeValues) recipeCount += r;
-            if (!doSlot && recipeCount == 0) return;
+        private void LeverCount_Click(object sender, EventArgs e) {
+            if (!doCount) {
+                doCount = true;
+                actuator_on.Play();
+                leverCount.BackgroundImage = Properties.Resources.lever_on;
+            } else {
+                doCount = false;
+                actuator_off.Play();
+                leverCount.BackgroundImage = Properties.Resources.lever_off;
+            }
+            hotbarLayout.Invalidate();
+        }
 
-            if (doSlot = !doSlot) {
+        private void LeverSlots_Click(object sender, EventArgs e) {
+            if (!doSlot) {
+                if (!SelectSlot()) return;
+                doSlot = true;
                 actuator_on.Play();
                 leverSlots.BackgroundImage = Properties.Resources.lever_on;
             } else {
+                doSlot = false;
                 actuator_off.Play();
                 leverSlots.BackgroundImage = Properties.Resources.lever_off;
             }
         }
 
         private void LeverSwap_Click(object sender, EventArgs e) {
-            if (doSwap = !doSwap) {
+            if (!doSwap) {
+                doSwap = true;
                 actuator_on.Play();
                 leverSwap.BackgroundImage = Properties.Resources.lever_on;
             } else {
+                doSwap = false;
                 actuator_off.Play();
                 leverSwap.BackgroundImage = Properties.Resources.lever_off;
             }
@@ -282,12 +318,18 @@ namespace Hotbar_Randomizer {
                 }
                 break;
             case WM.RBUTTONUP: // Switch Slot
-                if (MCWindow != IntPtr.Zero && doSlot && recipeCount > 0) {
-                    int sentchar = 0; // This is my cookbook RNG selector algorithm
-                    for (int i = rng.Next(recipeCount) + 1; i > recipeValues[sentchar]; i -= recipeValues[sentchar++]) ;
-                    PostMessage(MCWindow, (uint)WM.KEYDOWN, HotKeys[sentchar + 1], 0x0000_0001);
-                    PostMessage(MCWindow, (uint)WM.KEYUP, HotKeys[sentchar + 1], 0xC000_0001);
+                if (MCWindow == IntPtr.Zero || !doSlot) break;
+                if (doCount) { // Portion decrement
+                    recipeLabels[selectedSlot] = (--recipeValues[selectedSlot]).ToString();
+                    recipePanels[selectedSlot].Invalidate();
                 }
+                if (!SelectSlot()) { // Out of portions
+                    LeverCount_Click(null, null);
+                    LeverSlots_Click(null, null);
+                    break;
+                }
+                PostMessage(MCWindow, (uint)WM.KEYDOWN, HotKeys[selectedSlot + 1], 0x0000_0001);
+                PostMessage(MCWindow, (uint)WM.KEYUP, HotKeys[selectedSlot + 1], 0xC000_0001);
                 break;
             }
         }
