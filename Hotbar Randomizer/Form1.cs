@@ -182,7 +182,6 @@ namespace Hotbar_Randomizer {
         }
 
         private void HotbarCell_MouseClick(object sender, MouseEventArgs e) {
-            if (doSlot) return;
             selectedRecipe = hotbarLayout.GetColumn((Control)sender);
             previousRecipeValue = recipeValues[selectedRecipe];
             ((Control)sender).Invalidate();
