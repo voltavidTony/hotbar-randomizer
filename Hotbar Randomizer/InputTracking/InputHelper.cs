@@ -3,14 +3,14 @@ using System.Runtime.InteropServices;
 
 namespace InputTracking {
     [StructLayout(LayoutKind.Sequential)]
-    public struct KBDLLHOOKSTRUCT {
+    public readonly struct KBDLLHOOKSTRUCT {
         public readonly System.Windows.Forms.Keys vkCode;
         public readonly int scanCode, flags, time;
         public readonly IntPtr dwExtraInfo;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct MSLLHOOKSTRUCT {
+    public readonly struct MSLLHOOKSTRUCT {
         public readonly System.Drawing.Point point;
         public readonly int mouseData, flags, time;
         public readonly IntPtr dwExtraInfo;

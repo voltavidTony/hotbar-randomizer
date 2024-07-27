@@ -52,10 +52,10 @@ namespace Hotbar_Randomizer {
         public static readonly System.Drawing.Color NamePlate = System.Drawing.Color.FromArgb(0xA0, System.Drawing.Color.Black);
         public static readonly System.Drawing.Text.PrivateFontCollection Fonts = new System.Drawing.Text.PrivateFontCollection();
 
-        public static byte[] HotbarKeys = { 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39 }; // 1-9
-
-        public static byte CmdChar = (byte)VkKeyScan('/');
-        public static byte OffhandKey = 0x46; // F
+        public static byte CmdKey = (byte)VkKeyScan('/');
+        public static byte[] HotbarKeys = { (byte)VkKeyScan('1'), (byte)VkKeyScan('2'), (byte)VkKeyScan('3'), (byte)VkKeyScan('4'),
+            (byte)VkKeyScan('5'), (byte)VkKeyScan('6'), (byte)VkKeyScan('7'), (byte)VkKeyScan('8'), (byte)VkKeyScan('9') };
+        public static byte OffhandKey = (byte)VkKeyScan('F');
 
         #endregion
 
@@ -93,11 +93,11 @@ namespace Hotbar_Randomizer {
                 }
                 // Save new keybinds
                 for (int i = 0; i < options.Length; i++)
-                    if (i == 0 && !ParseChar(options[0], ref CmdChar) ||
+                    if (i == 0 && !ParseChar(options[0], ref CmdKey) ||
                         i == 10 && !ParseChar(options[10], ref OffhandKey) ||
                         !ParseChar(options[i], ref HotbarKeys[i - 1]))
                         MessageBox.Show($"Incorrect character format! (Got {options[i]})\n" +
-                            $"Using default assignment. ({(i == 0 ? CmdChar : i == 10 ? OffhandKey : HotbarKeys[i - 1])})");
+                            $"Using default assignment. ({(i == 0 ? CmdKey : i == 10 ? OffhandKey : HotbarKeys[i - 1])})");
             }
 
             // Minecraftia font

@@ -98,7 +98,6 @@
             this.optionsFrame.Name = "optionsFrame";
             this.optionsFrame.RowCount = 1;
             this.optionsFrame.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.optionsFrame.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 128F));
             this.optionsFrame.Size = new System.Drawing.Size(740, 128);
             this.optionsFrame.TabIndex = 3;
             // 
@@ -262,8 +261,6 @@
             this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.hotbarLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.hotbarLayout.Controls.Add(this.panel1, 0, 0);
             this.hotbarLayout.Controls.Add(this.panel2, 1, 0);
             this.hotbarLayout.Controls.Add(this.panel3, 2, 0);

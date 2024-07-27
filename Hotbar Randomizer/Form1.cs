@@ -36,6 +36,8 @@ namespace Hotbar_Randomizer {
         private readonly InputTracker<KBDLLHOOKSTRUCT> keyboard;
         private readonly InputTracker<MSLLHOOKSTRUCT> mouse;
         private readonly Random rng = new Random();
+        private readonly SoundPlayer actuator_off = new SoundPlayer(Properties.Resources.actuator_off);
+        private readonly SoundPlayer actuator_on = new SoundPlayer(Properties.Resources.actuator_on);
         private readonly TextBox textBoxCmd;
         private readonly WinEventDelegate window;
 
@@ -107,7 +109,7 @@ namespace Hotbar_Randomizer {
         private void ButtonClose_Click(object sender, EventArgs e) =>
             new System.Threading.Tasks.Task((hWnd) => {
                 layoutClose.BackgroundImage = Properties.Resources.button_on;
-                new SoundPlayer(Properties.Resources.actuator_off).PlaySync();
+                actuator_off.PlaySync();
                 PostMessage((IntPtr)hWnd, (uint)WM.CLOSE, 0, 0);
             }, Handle).Start();
 
@@ -119,10 +121,10 @@ namespace Hotbar_Randomizer {
 
         private void ButtonQuestion_Click(object sender, EventArgs e) {
             new System.Threading.Tasks.Task(() => {
-                new SoundPlayer(Properties.Resources.actuator_on).Play();
+                actuator_on.Play();
                 layoutQuestion.BackgroundImage = Properties.Resources.button_on;
                 System.Threading.Thread.Sleep(1000);
-                new SoundPlayer(Properties.Resources.actuator_off).Play();
+                actuator_off.Play();
                 layoutQuestion.BackgroundImage = Properties.Resources.button_off;
             }).Start();
             aboutBox = new AboutBox1();
@@ -150,7 +152,7 @@ namespace Hotbar_Randomizer {
         private void HotbarCell_MouseClick(object sender, MouseEventArgs e) {
             if (doSlot) return;
             recipeSelected = hotbarLayout.GetColumn((Control)sender);
-            RecipeLabel = "0";
+            ((Control)sender).Invalidate();
         }
 
         private void HotbarCell_MouseEnter(object sender, EventArgs e) => ((Control)sender).BackColor = doSlot
@@ -195,6 +197,7 @@ namespace Hotbar_Randomizer {
                 recipeSelected = -1;
                 break;
             default: // Type
+                if (RecipeLabel.Length == 3) break;
                 Keys key = e.KeyCode;
                 if (Keys.NumPad0 <= key && key <= Keys.NumPad9)
                     key -= Keys.NumPad0 - Keys.D0;
@@ -209,7 +212,7 @@ namespace Hotbar_Randomizer {
 
             // Start command
             if (!panelCmd.Visible) {
-                if ((byte)e.Info.vkCode != CmdChar) return;
+                if ((byte)e.Info.vkCode != CmdKey) return;
                 textBoxCmd.Clear();
                 panelCmd.Visible = true;
             }
@@ -236,17 +239,25 @@ namespace Hotbar_Randomizer {
         private void LeverSlots_Click(object sender, EventArgs e) {
             recipeCount = 0;
             foreach (int r in recipeValues) recipeCount += r;
-            if (doSlot || recipeCount != 0) {
-                doSlot = !doSlot;
-                new SoundPlayer(doSlot ? Properties.Resources.actuator_on : Properties.Resources.actuator_off).Play();
-                leverSlots.BackgroundImage = doSlot ? Properties.Resources.lever_on : Properties.Resources.lever_off;
+            if (!doSlot && recipeCount == 0) return;
+
+            if (doSlot = !doSlot) {
+                actuator_on.Play();
+                leverSlots.BackgroundImage = Properties.Resources.lever_on;
+            } else {
+                actuator_off.Play();
+                leverSlots.BackgroundImage = Properties.Resources.lever_off;
             }
         }
 
         private void LeverSwap_Click(object sender, EventArgs e) {
-            doSwap = !doSwap;
-            new SoundPlayer(doSwap ? Properties.Resources.actuator_on : Properties.Resources.actuator_off).Play();
-            leverSwap.BackgroundImage = doSwap ? Properties.Resources.lever_on : Properties.Resources.lever_off;
+            if (doSwap = !doSwap) {
+                actuator_on.Play();
+                leverSwap.BackgroundImage = Properties.Resources.lever_on;
+            } else {
+                actuator_off.Play();
+                leverSwap.BackgroundImage = Properties.Resources.lever_off;
+            }
         }
 
         private void Mouse_WMEvent(object sender, WMEventArgs<MSLLHOOKSTRUCT> e) {
