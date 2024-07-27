@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\sign_command.png" />
     <None Include="Resources\hotbar_selection.png" />
     <None Include="Resources\open_flip3.wav" />
     <None Include="Resources\open_flip2.wav" />

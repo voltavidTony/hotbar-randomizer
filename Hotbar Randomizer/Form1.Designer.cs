@@ -32,7 +32,6 @@
             this.layoutSignSlots = new System.Windows.Forms.TableLayoutPanel();
             this.labelSlots = new System.Windows.Forms.Label();
             this.leverSwap = new System.Windows.Forms.Panel();
-            this.panelCmd = new System.Windows.Forms.Panel();
             this.leverCount = new System.Windows.Forms.Panel();
             this.layoutCount = new System.Windows.Forms.TableLayoutPanel();
             this.labelCount = new System.Windows.Forms.Label();
@@ -49,6 +48,8 @@
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
             this.panel9 = new System.Windows.Forms.Panel();
+            this.layoutCmd = new System.Windows.Forms.TableLayoutPanel();
+            this.labelCmd = new System.Windows.Forms.Label();
             this.mainFrame.SuspendLayout();
             this.optionsFrame.SuspendLayout();
             this.layoutSwap.SuspendLayout();
@@ -56,6 +57,7 @@
             this.layoutCount.SuspendLayout();
             this.titleBar.SuspendLayout();
             this.hotbarLayout.SuspendLayout();
+            this.layoutCmd.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainFrame
@@ -94,9 +96,9 @@
             this.optionsFrame.Controls.Add(this.layoutSwap, 1, 0);
             this.optionsFrame.Controls.Add(this.layoutSignSlots, 2, 0);
             this.optionsFrame.Controls.Add(this.leverSwap, 0, 0);
-            this.optionsFrame.Controls.Add(this.panelCmd, 2, 1);
             this.optionsFrame.Controls.Add(this.leverCount, 0, 1);
             this.optionsFrame.Controls.Add(this.layoutCount, 1, 1);
+            this.optionsFrame.Controls.Add(this.layoutCmd, 2, 1);
             this.optionsFrame.Dock = System.Windows.Forms.DockStyle.Fill;
             this.optionsFrame.Location = new System.Drawing.Point(0, 32);
             this.optionsFrame.Margin = new System.Windows.Forms.Padding(0);
@@ -188,18 +190,6 @@
             this.leverSwap.TabIndex = 4;
             this.leverSwap.Click += new System.EventHandler(this.LeverSwap_Click);
             this.leverSwap.DoubleClick += new System.EventHandler(this.LeverSwap_Click);
-            // 
-            // panelCmd
-            // 
-            this.panelCmd.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.optionsFrame.SetColumnSpan(this.panelCmd, 2);
-            this.panelCmd.Location = new System.Drawing.Point(307, 172);
-            this.panelCmd.Margin = new System.Windows.Forms.Padding(0);
-            this.panelCmd.Name = "panelCmd";
-            this.panelCmd.Size = new System.Drawing.Size(250, 40);
-            this.panelCmd.TabIndex = 6;
-            this.panelCmd.Visible = false;
-            this.panelCmd.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelCmd_Paint);
             // 
             // leverCount
             // 
@@ -458,6 +448,34 @@
             this.panel9.MouseEnter += new System.EventHandler(this.HotbarCell_MouseEnter);
             this.panel9.MouseLeave += new System.EventHandler(this.HotbarCell_MouseLeave);
             // 
+            // layoutCmd
+            // 
+            this.layoutCmd.BackgroundImage = global::Hotbar_Randomizer.Properties.Resources.sign_command;
+            this.layoutCmd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.layoutCmd.ColumnCount = 1;
+            this.layoutCmd.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.layoutCmd.Controls.Add(this.labelCmd, 0, 0);
+            this.layoutCmd.Location = new System.Drawing.Point(288, 128);
+            this.layoutCmd.Margin = new System.Windows.Forms.Padding(0);
+            this.layoutCmd.Name = "layoutCmd";
+            this.layoutCmd.RowCount = 1;
+            this.layoutCmd.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.layoutCmd.Size = new System.Drawing.Size(192, 128);
+            this.layoutCmd.TabIndex = 9;
+            // 
+            // labelCmd
+            // 
+            this.labelCmd.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.labelCmd.AutoSize = true;
+            this.labelCmd.AutoEllipsis = true;
+            this.labelCmd.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.labelCmd.Location = new System.Drawing.Point(96, 57);
+            this.labelCmd.MaximumSize = new System.Drawing.Size(150, 75);
+            this.labelCmd.Name = "labelCmd";
+            this.labelCmd.Size = new System.Drawing.Size(0, 13);
+            this.labelCmd.TabIndex = 1;
+            this.labelCmd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // HotbarRandomizerWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -486,6 +504,8 @@
             this.layoutCount.PerformLayout();
             this.titleBar.ResumeLayout(false);
             this.hotbarLayout.ResumeLayout(false);
+            this.layoutCmd.ResumeLayout(false);
+            this.layoutCmd.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -514,10 +534,11 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel leverSwap;
         private System.Windows.Forms.Panel leverSlots;
-        private System.Windows.Forms.Panel panelCmd;
         private System.Windows.Forms.Panel leverCount;
         private System.Windows.Forms.TableLayoutPanel layoutCount;
         private System.Windows.Forms.Label labelCount;
+        private System.Windows.Forms.TableLayoutPanel layoutCmd;
+        private System.Windows.Forms.Label labelCmd;
     }
 }
 

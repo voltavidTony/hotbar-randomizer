@@ -71,7 +71,7 @@ namespace Hotbar_Randomizer {
             textBoxCmd.TextChanged += TextBoxCmd_TextChanged;
 
             Font = new Font(Fonts.Families[0], 12);
-            labelCount.Font = labelSlots.Font = labelSwap.Font = panelCmd.Font = new Font(Font.FontFamily, 9);
+            labelCount.Font = labelSlots.Font = labelSwap.Font = labelCmd.Font = new Font(Font.FontFamily, 9);
 
             (keyboard = new InputTracker<KBDLLHOOKSTRUCT>()).WMEvent += Keyboard_WMEvent;
             (mouse = new InputTracker<MSLLHOOKSTRUCT>()).WMEvent += Mouse_WMEvent;
@@ -171,7 +171,7 @@ namespace Hotbar_Randomizer {
 
         private void ForegroundChanged(IntPtr hWinEventHook, uint eventType, IntPtr hWnd,
             int idObject, int idChild, uint idEventThread, uint dwmsEventTime) {
-            panelCmd.Visible = false;
+            labelCmd.Visible = false;
             MCWindow = IntPtr.Zero;
             try {
                 GetWindowThreadProcessId(GetForegroundWindow(), out int pid);
@@ -251,20 +251,19 @@ namespace Hotbar_Randomizer {
             if (MCWindow == IntPtr.Zero) return;
 
             // Start command
-            if (!panelCmd.Visible) {
-                if ((byte)e.Info.vkCode != HotKeys[0]) return;
+            if (!labelCmd.Visible && (byte)e.Info.vkCode == HotKeys[0]) {
                 textBoxCmd.Clear();
-                panelCmd.Visible = true;
+                labelCmd.Visible = true;
             }
 
             // Handle command
-            if (panelCmd.Visible) switch (e.Info.vkCode) {
+            if (labelCmd.Visible) switch (e.Info.vkCode) {
                 case Keys.Enter: // Process command
                     ProcessCommand();
-                    panelCmd.Visible = false;
+                    labelCmd.Visible = false;
                     break;
                 case Keys.Escape: // Cancel command
-                    panelCmd.Visible = false;
+                    labelCmd.Visible = false;
                     break;
                 default: // Leverage TextBox to get command input
                     PostMessage(textBoxCmd.Handle, (uint)e.WindowMessage, (int)e.Info.vkCode,
@@ -350,18 +349,7 @@ namespace Hotbar_Randomizer {
             }
         }
 
-        private void PanelCmd_Paint(object sender, PaintEventArgs e) {
-            if (!panelCmd.Visible) return;
-            e.Graphics.FillRectangle(new SolidBrush(NamePlate), panelCmd.ClientRectangle);
-            e.Graphics.DrawString(textBoxCmd.Text, panelCmd.Font, Brushes.White, panelCmd.ClientRectangle,
-                new StringFormat() {
-                    Alignment = StringAlignment.Near,
-                    LineAlignment = StringAlignment.Near,
-                    Trimming = StringTrimming.EllipsisCharacter
-                });
-        }
-
-        private void TextBoxCmd_TextChanged(object sender, EventArgs e) => panelCmd.Invalidate(false);
+        private void TextBoxCmd_TextChanged(object sender, EventArgs e) => labelCmd.Text = textBoxCmd.Text;
 
         private void TitleBar_MouseDown(object sender, MouseEventArgs e) {
             ReleaseCapture();
