@@ -174,10 +174,10 @@ namespace Hotbar_Randomizer {
             panelCmd.Visible = false;
             MCWindow = IntPtr.Zero;
             try {
-                GetWindowThreadProcessId(hWnd, out int pid);
-                var proc = Process.GetProcessById(pid);
+                GetWindowThreadProcessId(GetForegroundWindow(), out int pid);
+                Process proc = Process.GetProcessById(pid);
                 if (proc.MainModule.ModuleName.Equals("javaw.exe") && proc.MainWindowTitle.Contains("Minecraft"))
-                    MCWindow = hWnd;
+                    MCWindow = proc.MainWindowHandle;
             } catch { }
         }
 
