@@ -212,7 +212,7 @@ namespace Hotbar_Randomizer {
 
             // Start command
             if (!panelCmd.Visible) {
-                if ((byte)e.Info.vkCode != CmdKey) return;
+                if ((byte)e.Info.vkCode != HotKeys[0]) return;
                 textBoxCmd.Clear();
                 panelCmd.Visible = true;
             }
@@ -271,8 +271,8 @@ namespace Hotbar_Randomizer {
                 goto case WM.LBUTTONUP;
             case WM.LBUTTONUP: // Swap Offhand
                 if (MCWindow != IntPtr.Zero && doSwap) {
-                    PostMessage(MCWindow, (uint)WM.KEYDOWN, OffhandKey, 0x0000_0001);
-                    PostMessage(MCWindow, (uint)WM.KEYUP, OffhandKey, 0xC000_0001);
+                    PostMessage(MCWindow, (uint)WM.KEYDOWN, HotKeys[10], 0x0000_0001);
+                    PostMessage(MCWindow, (uint)WM.KEYUP, HotKeys[10], 0xC000_0001);
                 }
                 break;
             case WM.RBUTTONDOWN: // Revert Recipe
@@ -285,8 +285,8 @@ namespace Hotbar_Randomizer {
                 if (MCWindow != IntPtr.Zero && doSlot && recipeCount > 0) {
                     int sentchar = 0; // This is my cookbook RNG selector algorithm
                     for (int i = rng.Next(recipeCount) + 1; i > recipeValues[sentchar]; i -= recipeValues[sentchar++]) ;
-                    PostMessage(MCWindow, (uint)WM.KEYDOWN, HotbarKeys[sentchar], 0x0000_0001);
-                    PostMessage(MCWindow, (uint)WM.KEYUP, HotbarKeys[sentchar], 0xC000_0001);
+                    PostMessage(MCWindow, (uint)WM.KEYDOWN, HotKeys[sentchar + 1], 0x0000_0001);
+                    PostMessage(MCWindow, (uint)WM.KEYUP, HotKeys[sentchar + 1], 0xC000_0001);
                 }
                 break;
             }
