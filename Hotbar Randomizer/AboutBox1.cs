@@ -19,9 +19,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 using static Hotbar_Randomizer.Program;
 using System;
 using System.Drawing;
+using System.Media;
+using System.Linq;
 using System.Windows.Forms;
 using InputTracking;
-using System.Media;
 
 namespace Hotbar_Randomizer {
     partial class AboutBox1 : Form {
@@ -35,14 +36,7 @@ namespace Hotbar_Randomizer {
             new SoundPlayer(Properties.Resources.open_flip3)
         };
 
-        private readonly bool[] hasLink = { true, false, false, false, false };
-        private readonly string[] aboutPages = {
-            Properties.Resources.about_pg1,
-            Properties.Resources.about_pg2,
-            Properties.Resources.about_pg3,
-            Properties.Resources.about_pg4,
-            Properties.Resources.about_pg5
-        };
+        private readonly string[] aboutPages;
 
         private int page = 0;
 
@@ -52,6 +46,10 @@ namespace Hotbar_Randomizer {
 
         public AboutBox1() {
             InitializeComponent();
+            aboutPages = Properties.Resources.ResourceManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, true, true)
+                .Cast<System.Collections.DictionaryEntry>()
+                .Where(entry => entry.Key is string key && key.StartsWith("about_"))
+                .Select(entry => entry.Value as string).ToArray();
             pageCount.Font = new Font(Fonts.Families[0], 18);
             pageCount.Text = $"1/{aboutPages.Length}";
         }
@@ -79,7 +77,6 @@ namespace Hotbar_Randomizer {
         private void AboutRTF_LinkClicked(object sender, LinkClickedEventArgs e) => System.Diagnostics.Process.Start(e.LinkText);
 
         private void BookLayout_Click(object sender, EventArgs e) {
-            if (!hasLink[page]) return;
             Point mouse = aboutRTF.PointToClient(MousePosition);
             PostMessage(aboutRTF.Handle, (uint)WM.LBUTTONDOWN, 1, (mouse.Y << 16) | (mouse.X & 0xFFFF));
             PostMessage(aboutRTF.Handle, (uint)WM.LBUTTONUP, 0, (mouse.Y << 16) | (mouse.X & 0xFFFF));
